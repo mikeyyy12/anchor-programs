@@ -35,6 +35,5 @@ expect(poll.pollStart.toNumber()).to.be.lessThan(
   poll.pollEnd.toNumber(),
   "Poll start time must be less than end"
 );
-
   });
 });
