@@ -4,13 +4,20 @@ import { Voting } from "../target/types/voting";
 
 describe("voting", () => {
   // Configure the client to use the local cluster.
-  anchor.setProvider(anchor.AnchorProvider.env());
+  const provider = anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
 
   const program = anchor.workspace.voting as Program<Voting>;
 
-  it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+  const wallet = provider.wallet as anchor.Wallet;
+
+  it("Initialized poll!", async () => {
+    const tx = program.methods.initalizePoll(
+        new anchor.BN(1),
+        new anchor.BN(0),
+        new anchor.BN(1759916844),
+        "What is you favorite peanut butter"
+    ).accounts({signer:wallet.publicKey}).rpc()
+
   });
 });
