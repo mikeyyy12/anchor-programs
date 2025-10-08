@@ -21,6 +21,14 @@ pub mod voting {
         poll.candidate_amount = 0;
         Ok(())
     }
+
+    pub fn initalize_candidate(
+        ctx: Context<InitializeCandidate>,
+        candidate_name: String,
+        poll_id: u64,
+    ) -> Result<()> {
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
