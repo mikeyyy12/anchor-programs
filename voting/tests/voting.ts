@@ -36,4 +36,50 @@ expect(poll.pollStart.toNumber()).to.be.lessThan(
   "Poll start time must be less than end"
 );
   });
+
+  it("initalize candidate",async()=>{
+    await program.methods.initalizeCandidate(
+      "Smooth",
+      new anchor.BN(1)
+    ).rpc();
+
+    await program.methods.initalizeCandidate(
+      "Crunchy",
+      new anchor.BN(1)
+    ).rpc()
+
+    const [crunchyAddress] = PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer,'le',8),Buffer.from("Crunchy")],
+      program.programId
+    )
+    const crunchyCandidate = await program.account.candidate.fetch(crunchyAddress)
+    console.log(crunchyCandidate)
+    expect(crunchyCandidate.candidateVotes.toNumber()).to.equal(0);
+
+     const [smoothAddress] = PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer,'le',8),Buffer.from("Smooth")],
+      program.programId
+    )
+    const smoothCandidate = await program.account.candidate.fetch(smoothAddress)
+     expect(smoothCandidate.candidateVotes.toNumber()).to.equal(0);
+    console.log(smoothCandidate)
+  })
+  it("Vote",async()=>{
+
+    await program.methods.vote("Crunchy",new anchor.BN(1)).rpc();
+     const [crunchyAddress] = PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer,'le',8),Buffer.from("Crunchy")],
+      program.programId
+    )
+    const crunchyCandidate = await program.account.candidate.fetch(crunchyAddress)
+    console.log(crunchyCandidate)
+    const [pollAddress] = PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer,'le',8)],
+      program.programId
+    )
+    const poll = await program.account.poll.fetch(pollAddress);
+
+    console.log(JSON.stringify(poll, null, 2));
+  })
+
 });
