@@ -1,12 +1,12 @@
 [package]
-name = "swap"
+name = "crud"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "swap"
+name = "crud"
 
 [features]
 default = []
@@ -21,9 +21,8 @@ custom-panic = []
 
 
 [dependencies]
-anchor-lang = {version="0.32.1",features=["init-if0-needed"]}
-anchor-spl="0.32.1"
-solana-program="3.0.0"
+anchor-lang = "0.31.1"
+
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))'] }
